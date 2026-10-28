@@ -1,26 +1,26 @@
-# Confidentialité
+# Privacy
 
-HTML Entity Swapper est conçue pour fonctionner entièrement sur votre machine.
+HTML Entity Swapper is designed to run entirely on your machine.
 
-## Données collectées
+## Data collected
 
-Aucune. L'extension ne collecte, ne stocke et ne transmet aucune donnée personnelle
-ni aucun contenu de vos fichiers.
+None. The extension does not collect, store, or transmit any personal data or any content
+from your files.
 
-## Télémétrie
+## Telemetry
 
-L'extension n'embarque aucune télémétrie. Aucun événement d'usage n'est émis.
+The extension ships no telemetry. No usage event is emitted.
 
-## Réseau
+## Network
 
-L'extension n'effectue aucune requête réseau. Elle ne contacte aucun serveur distant.
+The extension makes no network request. It does not contact any remote server.
 
-## Traitement
+## Processing
 
-Tout le traitement (lecture du document ou de la sélection, calcul et application des
-remplacements) se déroule localement dans l'IDE. Aucune information ne quitte votre poste.
+All processing (reading the document or the selection, computing and applying the
+replacements) happens locally in the IDE. No information leaves your machine.
 
 ## Configuration
 
-Le réglage `htmlentityswaper.overrides` est stocké par l'IDE dans vos paramètres, selon
-vos propres préférences. L'extension lit cette valeur mais ne l'exporte nulle part.
+The `htmlentityswaper.overrides` setting is stored by the IDE in your settings, according
+to your own preferences. The extension reads this value but never exports it anywhere.

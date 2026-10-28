@@ -8,15 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Mise en place initiale du projet : structure de l'extension VS Code
-  `ducks-project.htmlentityswaper` et chaîne d'outils (TypeScript strict, esbuild,
-  ESLint, Prettier, lefthook).
-- Architecture en couches cœur pur / ports / adaptateurs, avec squelettes des classes
-  `EntityMap`, `EntityMapBuilder`, `EntityReplacer` et du contrôleur de commandes.
-- Table de correspondance par défaut caractère vers entité HTML, dédoublonnée et corrigée.
-- Deux commandes déclarées (document et sélection) et réglage `htmlentityswaper.overrides`.
-- Suite de tests Mocha (unitaires, property-based, intégration) et benchmark mitata.
-- Documentation du projet : README, ROADMAP, PRIVACY, CONTRIBUTING, LICENSE et dossier
-  `docs/` (architecture, décisions, acceptation, tests, publication).
+- Initial project setup: structure of the `ducks-project.htmlentityswaper` VS Code
+  extension and toolchain (strict TypeScript, esbuild, ESLint, Prettier, lefthook).
+- Layered pure core / ports / adapters architecture, with skeletons for the `EntityMap`,
+  `EntityMapBuilder`, and `EntityReplacer` classes and the command controller.
+- Default character-to-HTML-entity map, deduplicated and corrected.
+- Two declared commands (document and selection) and the `htmlentityswaper.overrides` setting.
+- Mocha test suite (unit, property-based, integration) and a mitata benchmark.
+- Project documentation: README, ROADMAP, PRIVACY, CONTRIBUTING, LICENSE, and the `docs/`
+  folder (architecture, decisions, acceptance, testing, publishing).
 
 [unreleased]: https://github.com/ducks-project/htmlentityswaper/compare/HEAD

@@ -1,35 +1,35 @@
-# Contribuer
+# Contributing
 
-Merci de votre intérêt pour HTML Entity Swapper. Ce guide décrit l'installation,
-les conventions, les tests et le processus de contribution.
+Thank you for your interest in HTML Entity Swapper. This guide describes the setup, the
+conventions, the tests, and the contribution process.
 
-## Prérequis
+## Prerequisites
 
-- Node.js 20 ou plus récent et npm.
-- Un IDE compatible VS Code pour tester l'extension.
+- Node.js 20 or newer and npm.
+- A VS Code-compatible IDE to test the extension.
 
-## Installation
+## Setup
 
 ```bash
 npm install
 ```
 
-L'installation met en place [lefthook](https://github.com/evilmartians/lefthook), qui
-branche les hooks Git du projet (vérifications avant commit et avant push).
+Installation sets up [lefthook](https://github.com/evilmartians/lefthook), which wires in
+the project's Git hooks (pre-commit and pre-push checks).
 
 ## Conventions
 
-Le code doit respecter les règles de revue et de style du projet, consignées dans les
-steering suivantes :
+The code must follow the project's review and style rules, recorded in the following
+steering files:
 
-- [Conventions TypeScript](./.kiro/steering/typescript-conventions.md)
-- [Lignes directrices pour l'extension VS Code](./.kiro/steering/vscode-extension-guidelines.md)
-- [Stratégie de test](./.kiro/steering/testing-strategy.md)
+- [TypeScript conventions](./.kiro/steering/typescript-conventions.md)
+- [VS Code extension guidelines](./.kiro/steering/vscode-extension-guidelines.md)
+- [Testing strategy](./.kiro/steering/testing-strategy.md)
 
-En résumé : TypeScript strict, pas de `any`, interfaces préfixées `I`, early return,
-style Yoda, fonctions courtes, modules ES, et commentaires et JSDoc en anglais.
+In short: strict TypeScript, no `any`, interfaces prefixed with `I`, early return, Yoda
+style, short functions, ES modules, and comments and JSDoc in English.
 
-## Lancer les tests
+## Running the tests
 
 ```bash
 npm run test:unit
@@ -38,10 +38,10 @@ npm run test:integration
 npm run bench
 ```
 
-En environnement sans affichage, les tests d'intégration peuvent être ignorés
-localement ; ils tournent en CI via un affichage virtuel.
+In a headless environment, the integration tests can be skipped locally; they run in CI
+through a virtual display.
 
-## Vérifications locales
+## Local checks
 
 ```bash
 npm run lint
@@ -49,15 +49,15 @@ npm run compile
 npm run build
 ```
 
-## Format de commit
+## Commit format
 
-Le projet suit la convention
-[Conventional Commits](https://www.conventionalcommits.org/fr/v1.0.0/). Utiliser un
-préfixe de type : `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`.
+The project follows the
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) convention. Use a
+type prefix: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`.
 
-## Processus de pull request
+## Pull request process
 
-- Créer une branche dédiée à partir de la branche par défaut.
-- S'assurer que lint, compilation et tests passent.
-- Documenter le changement et mettre à jour le [changelog](./CHANGELOG.md) si pertinent.
-- Ouvrir la pull request avec une description claire du problème et de la solution.
+- Create a dedicated branch from the default branch.
+- Make sure lint, compilation, and tests pass.
+- Document the change and update the [changelog](./CHANGELOG.md) when relevant.
+- Open the pull request with a clear description of the problem and the solution.

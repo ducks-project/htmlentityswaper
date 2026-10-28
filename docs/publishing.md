@@ -1,16 +1,16 @@
-# Publication
+# Publishing
 
-Ce document décrit la procédure de publication de l'extension sur
-[Open VSX](https://open-vsx.org/), sous le namespace `ducks-project`.
+This document describes the procedure for publishing the extension to
+[Open VSX](https://open-vsx.org/), under the `ducks-project` namespace.
 
-## Prérequis
+## Prerequisites
 
-- Un compte Open VSX avec le droit de publier sous le namespace `ducks-project`.
-- Un jeton d'accès personnel Open VSX. Ce jeton ne doit jamais être committé ni partagé.
+- An Open VSX account with permission to publish under the `ducks-project` namespace.
+- An Open VSX personal access token. This token must never be committed or shared.
 
-## Création du namespace
+## Creating the namespace
 
-Opération à effectuer une seule fois :
+A one-time operation:
 
 ```bash
 ovsx create-namespace ducks-project -p "$OVSX_TOKEN"
@@ -18,28 +18,27 @@ ovsx create-namespace ducks-project -p "$OVSX_TOKEN"
 
 ## Packaging
 
-Construire le paquet `.vsix` avant publication :
+Build the `.vsix` package before publishing:
 
 ```bash
 npm run build
 npm run package
 ```
 
-## Publication manuelle
+## Manual publishing
 
 ```bash
 ovsx publish -p "$OVSX_TOKEN"
 ```
 
-## Publication automatisée en CI
+## Automated publishing in CI
 
-La publication est déclenchée par la CI sur la création d'un tag `v*` (par exemple
-`v0.1.0`). Le jeton est fourni à la CI via le secret `OVSX_TOKEN` ; il n'apparaît
-jamais en clair dans le dépôt. Le workflow de release construit le paquet puis exécute
-`ovsx publish`.
+Publishing is triggered by CI on the creation of a `v*` tag (for example `v0.1.0`). The
+token is provided to CI through the `OVSX_TOKEN` secret; it never appears in plain text in
+the repository. The release workflow builds the package and then runs `ovsx publish`.
 
-## Vérifications avant publication
+## Pre-publishing checks
 
-- Le numéro de version de `package.json` correspond au tag.
-- Le [changelog](../CHANGELOG.md) décrit la version publiée.
-- Lint, compilation et tests passent.
+- The version number in `package.json` matches the tag.
+- The [changelog](../CHANGELOG.md) describes the published version.
+- Lint, compilation, and tests pass.

@@ -3,48 +3,47 @@
 [![Open VSX](https://img.shields.io/badge/Open%20VSX-ducks--project.htmlentityswaper-purple)](https://open-vsx.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 
-Extension pour IDE compatible VS Code (Kiro, VS Code, forks) qui remplace les
-caractères spéciaux et accentués par leurs entités HTML, dans tout le document ou
-dans la sélection courante.
+Extension for VS Code-compatible IDEs (Kiro, VS Code, forks) that replaces special and
+accented characters with their HTML entities, either across the whole document or within
+the current selection.
 
-## Fonctionnalités
+## Features
 
-- Deux commandes : remplacement sur le document entier ou sur la sélection.
-- Table de correspondance par défaut d'un peu plus de deux cents caractères,
-  dédoublonnée et corrigée.
-- Surcharges utilisateur pour ajouter, écraser ou désactiver des remplacements.
-- Modifications appliquées en une seule édition groupée : une unique annulation.
-- Prise en compte immédiate des changements de configuration, sans rechargement.
-- Traitement entièrement local : aucun réseau, aucune télémétrie.
+- Two commands: replace across the entire document or within the selection.
+- Default entity map of a little over two hundred characters, deduplicated and corrected.
+- User overrides to add, replace, or disable individual mappings.
+- Changes applied as a single grouped edit: a single undo step.
+- Configuration changes picked up immediately, with no reload.
+- Fully local processing: no network, no telemetry.
 
 ## Installation
 
-Depuis Open VSX :
+From Open VSX:
 
-- ouvrir la vue Extensions de l'IDE ;
-- rechercher « HTML Entity Swapper » ;
-- installer l'extension publiée sous l'identifiant `ducks-project.htmlentityswaper`.
+- open the IDE's Extensions view;
+- search for "HTML Entity Swapper";
+- install the extension published under the identifier `ducks-project.htmlentityswaper`.
 
-Depuis un paquet local :
+From a local package:
 
 ```bash
 code --install-extension htmlentityswaper-0.1.0.vsix
 ```
 
-## Utilisation
+## Usage
 
-Ouvrir la palette de commandes, puis lancer l'une des deux commandes :
+Open the command palette, then run one of the two commands:
 
-- `Remplacer les caracteres par des entites HTML (document)` traite tout le fichier ;
-- `Remplacer les caracteres par des entites HTML (selection)` traite la sélection active.
+- `Replace characters with HTML entities (document)` processes the whole file;
+- `Replace characters with HTML entities (selection)` processes the active selection.
 
 ## Configuration
 
-La table de correspondance est personnalisable via le réglage
-`htmlentityswaper.overrides`. Chaque entrée suit le format `clé === valeur` : la clé
-est le caractère à remplacer, la valeur est l'entité HTML à produire.
+The entity map is customizable through the `htmlentityswaper.overrides` setting. Each
+entry follows the `key === value` format: the key is the character to replace, the value
+is the HTML entity to produce.
 
-Ajouter un caractère absent de la table par défaut :
+Add a character missing from the default map:
 
 ```json
 {
@@ -54,7 +53,7 @@ Ajouter un caractère absent de la table par défaut :
 }
 ```
 
-Écraser une entrée existante :
+Override an existing entry:
 
 ```json
 {
@@ -64,7 +63,7 @@ Ajouter un caractère absent de la table par défaut :
 }
 ```
 
-Désactiver un remplacement en donnant une valeur vide :
+Disable a mapping by giving it an empty value:
 
 ```json
 {
@@ -74,9 +73,9 @@ Désactiver un remplacement en donnant une valeur vide :
 }
 ```
 
-Les surcharges sont prises en compte immédiatement, sans rechargement de la fenêtre.
+Overrides are picked up immediately, with no window reload.
 
-## Développement
+## Development
 
 ```bash
 npm install
@@ -88,23 +87,23 @@ npm run test:unit
 
 ## Architecture
 
-Le code suit une architecture en couches : un cœur pur (`core/`) sans dépendance à
-l'API de l'éditeur, des ports (interfaces) et des adaptateurs (`adapters/`) qui sont
-la seule couche à importer `vscode`. Les détails et le diagramme figurent dans
+The code follows a layered architecture: a pure core (`core/`) with no dependency on the
+editor API, ports (interfaces), and adapters (`adapters/`) that are the only layer to
+import `vscode`. The details and the diagram are in
 [docs/architecture.md](./docs/architecture.md).
 
-## Contribution
+## Contributing
 
-Les règles de contribution, de style et de commit sont décrites dans
+The contribution, style, and commit rules are described in
 [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Licence
+## License
 
-Distribué sous licence MIT. Voir [LICENSE](./LICENSE).
+Distributed under the MIT license. See [LICENSE](./LICENSE).
 
-## Crédits
+## Credits
 
-L'idée et la table de correspondance initiale proviennent de l'extension
-[enriquein/htmlentity-replacer](https://github.com/enriquein/htmlentity-replacer).
-Seules l'idée et les données ont été réutilisées ; l'implémentation est une
-réécriture complète.
+The idea and the initial entity map come from the
+[enriquein/htmlentity-replacer](https://github.com/enriquein/htmlentity-replacer)
+extension. Only the idea and the data were reused; the implementation is a complete
+rewrite.

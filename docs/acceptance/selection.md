@@ -1,17 +1,17 @@
-# Acceptation — Sélection
+# Acceptance — Selection
 
-Scénarios d'acceptation au format Given/When/Then pour le remplacement limité à la
-sélection courante.
+Acceptance scenarios in Given/When/Then format for replacement limited to the current
+selection.
 
-## Remplacement dans la sélection
+## Replacement within the selection
 
-- Étant donné un document où l'utilisateur a sélectionné une portion de texte,
-- quand l'utilisateur lance la commande de remplacement sur la sélection,
-- alors seuls les caractères mappés situés dans la sélection sont remplacés, et le texte
-  hors sélection reste inchangé.
+- Given a document where the user has selected a portion of text,
+- when the user runs the selection replacement command,
+- then only the mapped characters inside the selection are replaced, and the text outside
+  the selection remains unchanged.
 
-## Sélection vide
+## Empty selection
 
-- Étant donné un éditeur actif sans texte sélectionné,
-- quand l'utilisateur lance la commande de remplacement sur la sélection,
-- alors aucun caractère n'est remplacé en dehors d'une sélection effective.
+- Given an active editor with no selected text,
+- when the user runs the selection replacement command,
+- then no character is replaced outside an effective selection.

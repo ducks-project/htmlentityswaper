@@ -1,30 +1,30 @@
 # Architecture
 
-HTML Entity Swapper est structurée en couches pour isoler la logique métier de
-l'API de l'éditeur. L'objectif : un cœur testable sans hôte VS Code, portable (web),
-et une seule frontière avec `vscode`.
+HTML Entity Swapper is structured in layers to isolate the business logic from the editor
+API. The goal: a core that is testable without a VS Code host, portable (web), and a single
+boundary with `vscode`.
 
-## Couches
+## Layers
 
-- Cœur (`core/`) : logique pure. N'importe jamais `vscode`. Contient la table de
-  correspondance, le constructeur de table, le moteur de calcul et les objets valeur.
-- Ports (`core/ports/`) : interfaces décrivant ce dont le cœur a besoin
+- Core (`core/`): pure logic. Never imports `vscode`. Contains the entity map, the map
+  builder, the compute engine, and the value objects.
+- Ports (`core/ports/`): interfaces describing what the core needs
   ([IConfigurationProvider](../src/core/ports/IConfigurationProvider.ts),
   [ITextDocument](../src/core/ports/ITextDocument.ts)).
-- Adaptateurs (`adapters/`) : seule couche qui importe `vscode`. Implémente les ports
-  et applique les éditions.
-- Point d'entrée ([extension.ts](../src/extension.ts)) : racine de composition qui
-  câble les dépendances et enregistre les commandes.
+- Adapters (`adapters/`): the only layer that imports `vscode`. Implements the ports and
+  applies the edits.
+- Entry point ([extension.ts](../src/extension.ts)): composition root that wires the
+  dependencies and registers the commands.
 
-## Diagramme des couches
+## Layer diagram
 
 ```mermaid
 flowchart TD
-  subgraph Hote["Hote VS Code / Kiro"]
+  subgraph Host["VS Code / Kiro host"]
     EXT["extension.ts (composition root)"]
   end
 
-  subgraph Adapters["adapters/ (importe vscode)"]
+  subgraph Adapters["adapters/ (imports vscode)"]
     CC["CommandController"]
     VCP["VscodeConfigurationProvider"]
     VDA["VscodeDocumentAdapter"]
@@ -35,7 +35,7 @@ flowchart TD
     ITD["ITextDocument"]
   end
 
-  subgraph Core["core/ (pur, sans vscode)"]
+  subgraph Core["core/ (pure, no vscode)"]
     EMB["EntityMapBuilder"]
     EM["EntityMap"]
     ER["EntityReplacer"]
@@ -57,44 +57,43 @@ flowchart TD
   ER --> RR
 ```
 
-## Flux d'une commande
+## Command flow
 
 ```mermaid
 sequenceDiagram
-  participant U as Utilisateur
+  participant U as User
   participant X as extension.ts
   participant C as CommandController
   participant B as EntityMapBuilder
   participant R as EntityReplacer
   participant W as WorkspaceEdit (vscode)
 
-  U->>X: invoque la commande
+  U->>X: invokes the command
   X->>C: replaceInDocument/replaceInSelection(editor)
   C->>B: withDefaults().withOverrides(overrides).build()
   B-->>C: EntityMap
   C->>R: computeReplacements(document, range?)
   R-->>C: ReplacementResult (edits)
-  C->>W: applique un seul WorkspaceEdit groupe
-  W-->>U: document modifie, une seule annulation
+  C->>W: applies a single grouped WorkspaceEdit
+  W-->>U: document modified, a single undo step
 ```
 
 ## Patterns
 
-- Builder (interface fluente) :
-  [EntityMapBuilder](../src/core/EntityMapBuilder.ts) assemble défauts et surcharges
-  en une [EntityMap](../src/core/EntityMap.ts) immuable à lookup O(1), et renvoie `this`.
-- Adapter : [VscodeConfigurationProvider](../src/adapters/VscodeConfigurationProvider.ts)
-  et [VscodeDocumentAdapter](../src/adapters/VscodeDocumentAdapter.ts) relient l'API de
-  l'éditeur aux ports du cœur.
-- Dependency Inversion : le cœur dépend des ports, pas des adaptateurs concrets.
-- Value Objects immuables : [Replacement](../src/core/models/Replacement.ts) et
-  [ReplacementResult](../src/core/models/ReplacementResult.ts), sans mutation.
+- Builder (fluent interface):
+  [EntityMapBuilder](../src/core/EntityMapBuilder.ts) assembles defaults and overrides
+  into an immutable [EntityMap](../src/core/EntityMap.ts) with O(1) lookup, and returns `this`.
+- Adapter: [VscodeConfigurationProvider](../src/adapters/VscodeConfigurationProvider.ts)
+  and [VscodeDocumentAdapter](../src/adapters/VscodeDocumentAdapter.ts) connect the editor
+  API to the core's ports.
+- Dependency Inversion: the core depends on the ports, not on the concrete adapters.
+- Immutable value objects: [Replacement](../src/core/models/Replacement.ts) and
+  [ReplacementResult](../src/core/models/ReplacementResult.ts), with no mutation.
 
-## Corrections par rapport à l'extension de référence
+## Fixes relative to the reference extension
 
-- Une seule édition groupée (`WorkspaceEdit`) au lieu d'une édition par caractère :
-  annulation unique et meilleures performances.
-- Reconstruction de la table à la demande, invalidée sur changement de configuration :
-  plus besoin de recharger la fenêtre.
-- Table de correspondance dédoublonnée et corrigée dans
+- A single grouped edit (`WorkspaceEdit`) instead of one edit per character: a single undo
+  step and better performance.
+- On-demand rebuild of the map, invalidated on configuration change: no window reload needed.
+- Entity map deduplicated and corrected in
   [default-entities.ts](../src/data/default-entities.ts).

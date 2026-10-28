@@ -1,31 +1,30 @@
-# Acceptation — Surcharges
+# Acceptance — Overrides
 
-Scénarios d'acceptation au format Given/When/Then pour le réglage
-`htmlentityswaper.overrides`, qui permet d'ajouter, d'écraser ou de désactiver une
-correspondance selon le format `clé === valeur`.
+Acceptance scenarios in Given/When/Then format for the `htmlentityswaper.overrides`
+setting, which allows adding, replacing, or disabling a mapping using the `key === value`
+format.
 
-## Ajouter un caractère
+## Add a character
 
-- Étant donné une surcharge associant un caractère absent de la table par défaut à une
-  entité HTML,
-- quand l'utilisateur lance un remplacement,
-- alors ce caractère est désormais remplacé par l'entité fournie.
+- Given an override mapping a character absent from the default map to an HTML entity,
+- when the user runs a replacement,
+- then that character is now replaced by the provided entity.
 
-## Écraser une correspondance
+## Override a mapping
 
-- Étant donné une surcharge associant un caractère déjà présent dans la table par défaut
-  à une entité différente,
-- quand l'utilisateur lance un remplacement,
-- alors ce caractère est remplacé par l'entité de la surcharge, et non par celle par défaut.
+- Given an override mapping a character already present in the default map to a different
+  entity,
+- when the user runs a replacement,
+- then that character is replaced by the override's entity, not by the default one.
 
-## Désactiver une correspondance
+## Disable a mapping
 
-- Étant donné une surcharge associant un caractère de la table par défaut à une valeur vide,
-- quand l'utilisateur lance un remplacement,
-- alors ce caractère n'est plus remplacé.
+- Given an override mapping a character from the default map to an empty value,
+- when the user runs a replacement,
+- then that character is no longer replaced.
 
-## Prise en compte immédiate
+## Immediate pickup
 
-- Étant donné une table d'entités déjà construite pour la session,
-- quand l'utilisateur modifie le réglage `htmlentityswaper.overrides`,
-- alors le remplacement suivant reflète la nouvelle configuration, sans rechargement de la fenêtre.
+- Given an entity map already built for the session,
+- when the user changes the `htmlentityswaper.overrides` setting,
+- then the next replacement reflects the new configuration, with no window reload.

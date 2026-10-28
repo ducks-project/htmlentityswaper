@@ -1,25 +1,25 @@
 # Roadmap
 
-Ce document décrit les versions prévues de HTML Entity Swapper. Les dates ne sont
-pas figées ; l'ordre des jalons l'est. Les détails évoluent avec le projet.
+This document describes the planned releases of HTML Entity Swapper. The dates are not
+fixed; the order of the milestones is. The details evolve with the project.
 
 ## v0.1.0 — MVP
 
-- Les deux commandes opérationnelles : remplacement sur le document et sur la sélection.
-- Table de correspondance par défaut dédoublonnée et corrigée.
-- Surcharges utilisateur `htmlentityswaper.overrides` (ajouter, écraser, désactiver).
-- Édition groupée avec annulation unique, prise en compte immédiate de la configuration.
-- Suite de tests unitaires, property-based et d'intégration en place.
+- Both commands operational: replacement across the document and within the selection.
+- Default entity map, deduplicated and corrected.
+- User overrides `htmlentityswaper.overrides` (add, replace, disable).
+- Grouped edit with a single undo step, and configuration changes picked up immediately.
+- Unit, property-based, and integration test suites in place.
 
-## v0.2.0 — Portabilité et mesure
+## v0.2.0 — Portability and measurement
 
-- Extension web complète (cible navigateur du bundle), validée dans un hôte web.
-- Benchmarks mitata publiés et suivis dans la documentation.
-- Durcissement de la couverture de tests sur le cœur et les adaptateurs.
+- Full web extension (browser target of the bundle), validated in a web host.
+- Published mitata benchmarks, tracked in the documentation.
+- Hardened test coverage across the core and the adapters.
 
-## v0.3.0 — Enrichissement fonctionnel
+## v0.3.0 — Feature enrichment
 
-- Choix configurable entre entités numériques et entités nommées.
-- Commande inverse : entité HTML vers caractère.
-- Prise en charge des sélections multiples.
-- Internationalisation des libellés de l'interface.
+- Configurable choice between numeric entities and named entities.
+- Reverse command: HTML entity to character.
+- Support for multiple selections.
+- Internationalization of the interface labels.
