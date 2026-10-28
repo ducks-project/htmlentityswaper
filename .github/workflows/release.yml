@@ -9,6 +9,10 @@ jobs:
   publish:
     name: Publish to Open VSX
     runs-on: ubuntu-latest
+    # contents: write lets the final step create the GitHub release and attach
+    # the .vsix using the automatic GITHUB_TOKEN (no extra secret needed).
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -36,3 +40,24 @@ jobs:
         run: npx ovsx publish *.vsix
         env:
           OVSX_PAT: ${{ secrets.OVSX_TOKEN }}
+
+      # Extracts the changelog section for this version (e.g. "## [0.1.0]")
+      # into release notes. Falls back to a generic line if none is found.
+      - name: Extract release notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" { capture = 1; next }
+            capture && /^## \[/ { exit }
+            capture { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "Release ${GITHUB_REF_NAME}." > release-notes.md
+          fi
+
+      # Creates the GitHub release and attaches the packaged .vsix, using the
+      # automatic GITHUB_TOKEN provided to the workflow.
+      - name: Create GitHub release
+        run: gh release create "${GITHUB_REF_NAME}" *.vsix --title "${GITHUB_REF_NAME}" --notes-file release-notes.md
+        env:
+          GH_TOKEN: ${{ github.token }}
