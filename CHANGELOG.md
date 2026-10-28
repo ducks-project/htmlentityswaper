@@ -17,5 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mocha test suite (unit, property-based, integration) and a mitata benchmark.
 - Project documentation: README, ROADMAP, PRIVACY, CONTRIBUTING, LICENSE, and the `docs/`
   folder (architecture, decisions, acceptance, testing, publishing).
+- Core replacement logic: `EntityMap` immutable O(1) lookup table, fluent `EntityMapBuilder`
+  (defaults load plus add / overwrite / disable overrides), and the pure `EntityReplacer`
+  with UTF-16-safe, code-point iteration that never splits a surrogate pair.
+- The `htmlentityswaper.replaceInDocument` and `htmlentityswaper.replaceInSelection` commands,
+  applying all changes as a single grouped `WorkspaceEdit` (one undo step).
+- Override support through the `htmlentityswaper.overrides` setting, with disable when the
+  value is empty or equal to its key, applied on every command with no window reload.
+- Activated unit, property-based, and integration test suites, all passing.
 
 [unreleased]: https://github.com/ducks-project/htmlentityswaper/compare/HEAD

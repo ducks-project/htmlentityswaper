@@ -17,8 +17,14 @@ the command controller ([CommandController](../../src/adapters/CommandController
 core computes the complete list of replacements
 ([ReplacementResult](../../src/core/models/ReplacementResult.ts)) before application.
 
+Edits are added to the `WorkspaceEdit` from the highest absolute offset to the lowest
+(descending `position`), so applying a replacement never shifts the offsets of the edits that
+follow. Absolute UTF-16 offsets are converted back to editor positions with
+`document.positionAt`.
+
 ## Consequences
 
-- A single undo step for the user.
+- A single undo step for the user. This is verified by an integration test that runs
+  `replaceInDocument` and asserts one `undo` restores the original document text.
 - Better performance on large documents.
 - A clean separation between computation (core) and application (adapter).

@@ -94,6 +94,8 @@ sequenceDiagram
 
 - A single grouped edit (`WorkspaceEdit`) instead of one edit per character: a single undo
   step and better performance.
-- On-demand rebuild of the map, invalidated on configuration change: no window reload needed.
+- Stateless, on-demand rebuild of the map on every command from the current settings: a
+  configuration change is picked up on the next command with no window reload and no cache to
+  invalidate, so no configuration-change listener is required.
 - Entity map deduplicated and corrected in
   [default-entities.ts](../src/data/default-entities.ts).

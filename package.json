@@ -56,7 +56,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "markdownDescription": "Surcharges de la table de correspondance caractere -> entite HTML. Chaque entree utilise le format `cle === valeur` : la cle est le caractere a remplacer, la valeur l'entite HTML a utiliser. Trois usages : ajouter un caractere absent de la table par defaut, ecraser une entree existante, ou desactiver un remplacement en donnant une valeur vide. Les modifications sont prises en compte immediatement, sans rechargement de la fenetre."
+          "markdownDescription": "Surcharges de la table de correspondance caractere -> entite HTML. Chaque entree utilise le format `cle === valeur` : la cle est le caractere a remplacer, la valeur l'entite HTML a utiliser. Trois usages : ajouter un caractere absent de la table par defaut, ecraser une entree existante, ou desactiver un remplacement en donnant une valeur vide ou egale a la cle. Les modifications sont prises en compte immediatement, sans rechargement de la fenetre."
         }
       }
     }
