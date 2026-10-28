@@ -68,7 +68,7 @@
     "build:prod": "node esbuild.mjs --prod",
     "watch": "node esbuild.mjs --watch",
     "build:browser": "node esbuild.mjs --browser",
-    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"benchmark/**/*.ts\"",
+    "lint": "eslint --no-error-on-unmatched-pattern \"src/**/*.ts\" \"test/**/*.ts\" \"benchmark/**/*.ts\"",
     "format": "prettier --write \"**/*.{ts,mjs,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,mjs,json,md,yml,yaml}\"",
     "test:unit": "mocha",
