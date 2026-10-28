@@ -1,13 +1,40 @@
-/* eslint-disable class-methods-use-this, @typescript-eslint/no-unused-vars */
-// Scaffold stub (FEAT-002): method bodies are not implemented yet, so injected
-// collaborators and parameters are staged but unused and methods do not yet
-// reference `this`. Remove this directive once the orchestration logic lands.
-
 import * as vscode from 'vscode';
 import type { IConfigurationProvider } from '../core/ports/IConfigurationProvider';
+import type { IReplacementRange } from '../core/EntityReplacer';
+import type { ReplacementResult } from '../core/models/ReplacementResult';
 import { EntityMapBuilder } from '../core/EntityMapBuilder';
 import { EntityReplacer } from '../core/EntityReplacer';
 import { VscodeDocumentAdapter } from './VscodeDocumentAdapter';
+
+/** Count below which no edit is applied (avoids an empty WorkspaceEdit). */
+const EMPTY_RESULT_COUNT = 0;
+
+/**
+ * Apply a replacement result to a document as a single grouped
+ * `vscode.WorkspaceEdit` (one undo step). Edits are applied from last to first
+ * so an earlier replacement never shifts the offsets of a later one. Absolute
+ * UTF-16 offsets are converted to editor positions via `document.positionAt`.
+ * @param document The document whose edits are applied.
+ * @param result The computed replacements.
+ */
+async function applyGroupedEdit(
+  document: vscode.TextDocument,
+  result: ReplacementResult,
+): Promise<void> {
+  if (EMPTY_RESULT_COUNT === result.count) {
+    return;
+  }
+  const edit = new vscode.WorkspaceEdit();
+  const ordered = [...result.edits].sort((left, right) => right.position - left.position);
+  ordered.forEach((replacement) => {
+    const range = new vscode.Range(
+      document.positionAt(replacement.position),
+      document.positionAt(replacement.position + replacement.length),
+    );
+    edit.replace(document.uri, range, replacement.replacement);
+  });
+  await vscode.workspace.applyEdit(edit);
+}
 
 /**
  * Orchestrates the replacement commands on top of the pure core.
@@ -45,9 +72,10 @@ export class CommandController {
    * @param editor The active editor whose document is processed.
    */
   public async replaceInDocument(editor: vscode.TextEditor): Promise<void> {
-    // TODO: build map, adapt document, compute replacements over the full text,
-    // and apply them as a single grouped WorkspaceEdit.
-    throw new Error('Not implemented');
+    const result = this.buildReplacer().computeReplacements(
+      new VscodeDocumentAdapter(editor.document),
+    );
+    await applyGroupedEdit(editor.document, result);
   }
 
   /**
@@ -55,9 +83,21 @@ export class CommandController {
    * @param editor The active editor whose selection is processed.
    */
   public async replaceInSelection(editor: vscode.TextEditor): Promise<void> {
-    // TODO: build map, adapt document, compute replacements limited to the
-    // selection range, and apply them as a single grouped WorkspaceEdit.
-    throw new Error('Not implemented');
+    const { selection } = editor;
+    if (selection.isEmpty) {
+      return;
+    }
+    const range: IReplacementRange = {
+      startLine: selection.start.line,
+      startCharacter: selection.start.character,
+      endLine: selection.end.line,
+      endCharacter: selection.end.character,
+    };
+    const result = this.buildReplacer().computeReplacements(
+      new VscodeDocumentAdapter(editor.document),
+      range,
+    );
+    await applyGroupedEdit(editor.document, result);
   }
 
   /**
@@ -65,8 +105,10 @@ export class CommandController {
    * @returns A replacer bound to a newly built entity map.
    */
   private buildReplacer(): EntityReplacer {
-    // TODO: this.createBuilder().withDefaults()
-    //   .withOverrides(this.configurationProvider.getOverrides()).build().
-    throw new Error('Not implemented');
+    const entityMap = this.createBuilder()
+      .withDefaults()
+      .withOverrides(this.configurationProvider.getOverrides())
+      .build();
+    return new EntityReplacer(entityMap);
   }
 }

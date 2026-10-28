@@ -1,31 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, no-useless-return */
-// Scaffold stub (FEAT-002): the structural wiring (registerCommand,
-// onDidChangeConfiguration, subscriptions.push) is present so the extension
-// compiles and bundles, but the command bodies stay `// TODO`. The injected
-// `controller` is therefore not consumed yet, and the configuration guard uses
-// an early return whose following body is still a TODO. Remove this directive
-// once the command handlers are implemented.
-
 import * as vscode from 'vscode';
 import { EntityMapBuilder } from './core/EntityMapBuilder';
 import { CommandController } from './adapters/CommandController';
 import { VscodeConfigurationProvider } from './adapters/VscodeConfigurationProvider';
 
-/** Configuration section watched for override changes. */
-const CONFIGURATION_SECTION = 'htmlentityswaper';
 /** Command id replacing characters in the whole document. */
 const COMMAND_REPLACE_IN_DOCUMENT = 'htmlentityswaper.replaceInDocument';
 /** Command id replacing characters within the current selection. */
 const COMMAND_REPLACE_IN_SELECTION = 'htmlentityswaper.replaceInSelection';
 
 /**
- * Activate the extension: wire dependencies, register the two commands and the
- * configuration listener, and push every disposable into the subscriptions.
+ * Run a command body guarded by an active editor, surfacing any failure to the
+ * user instead of letting it leak out of the command handler.
+ * @param run Callback receiving the active editor.
+ */
+async function withActiveEditor(run: (editor: vscode.TextEditor) => Promise<void>): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (undefined === editor) {
+    return;
+  }
+  try {
+    await run(editor);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    await vscode.window.showErrorMessage(`HTML Entity Swapper: ${message}`);
+  }
+}
+
+/**
+ * Activate the extension: wire dependencies and register the two commands,
+ * pushing every disposable into the subscriptions.
  *
  * Dependency injection is performed here (composition root): the configuration
- * provider and the controller are instantiated and connected. Listening to
- * `onDidChangeConfiguration` lets the entity map be rebuilt on demand, removing
- * the reference extension's "reload required" limitation.
+ * provider and the controller are instantiated and connected. The controller
+ * rebuilds the entity map on every command from the current settings, so the
+ * extension is fully stateless and no configuration-change listener is needed:
+ * a settings change is picked up on the next command with no window reload.
  * @param context The extension context owning the disposables.
  */
 export function activate(context: vscode.ExtensionContext): void {
@@ -34,30 +43,15 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const replaceInDocument = vscode.commands.registerCommand(
     COMMAND_REPLACE_IN_DOCUMENT,
-    async (): Promise<void> => {
-      // TODO: guard on an active editor, then controller.replaceInDocument(editor).
-      throw new Error('Not implemented');
-    },
+    (): Promise<void> => withActiveEditor((editor) => controller.replaceInDocument(editor)),
   );
 
   const replaceInSelection = vscode.commands.registerCommand(
     COMMAND_REPLACE_IN_SELECTION,
-    async (): Promise<void> => {
-      // TODO: guard on an active editor, then controller.replaceInSelection(editor).
-      throw new Error('Not implemented');
-    },
+    (): Promise<void> => withActiveEditor((editor) => controller.replaceInSelection(editor)),
   );
 
-  const configurationListener = vscode.workspace.onDidChangeConfiguration(
-    (event: vscode.ConfigurationChangeEvent): void => {
-      if (!event.affectsConfiguration(CONFIGURATION_SECTION)) {
-        return;
-      }
-      // TODO: invalidate any cached entity map so the next command rebuilds it.
-    },
-  );
-
-  context.subscriptions.push(replaceInDocument, replaceInSelection, configurationListener);
+  context.subscriptions.push(replaceInDocument, replaceInSelection);
 }
 
 /**

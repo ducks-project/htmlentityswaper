@@ -1,8 +1,3 @@
-/* eslint-disable class-methods-use-this, @typescript-eslint/no-unused-vars */
-// Scaffold stub (FEAT-002): method bodies are not implemented yet, so parameters
-// are unused and methods do not reference `this`. These lint rules are disabled
-// at file scope until the logic lands; remove this directive once implemented.
-
 import * as vscode from 'vscode';
 import type { ITextDocument } from '../core/ports/ITextDocument';
 
@@ -29,8 +24,7 @@ export class VscodeDocumentAdapter implements ITextDocument {
    * Total number of lines in the wrapped document.
    */
   public get lineCount(): number {
-    // TODO: return this.document.lineCount.
-    throw new Error('Not implemented');
+    return this.document.lineCount;
   }
 
   /**
@@ -39,8 +33,7 @@ export class VscodeDocumentAdapter implements ITextDocument {
    * @returns The text content of the requested line.
    */
   public lineAt(index: number): string {
-    // TODO: return this.document.lineAt(index).text.
-    throw new Error('Not implemented');
+    return this.document.lineAt(index).text;
   }
 
   /**
@@ -48,7 +41,6 @@ export class VscodeDocumentAdapter implements ITextDocument {
    * @returns The entire document text.
    */
   public getText(): string {
-    // TODO: return this.document.getText().
-    throw new Error('Not implemented');
+    return this.document.getText();
   }
 }

@@ -1,8 +1,3 @@
-/* eslint-disable class-methods-use-this, @typescript-eslint/no-unused-vars */
-// Scaffold stub (FEAT-002): the method body is not implemented yet, so the
-// `vscode` import and section constants are staged but unused and the method
-// does not reference `this`. Remove this directive once the logic lands.
-
 import * as vscode from 'vscode';
 import type { IConfigurationProvider } from '../core/ports/IConfigurationProvider';
 
@@ -22,10 +17,31 @@ const OVERRIDES_KEY = 'overrides';
 export class VscodeConfigurationProvider implements IConfigurationProvider {
   /**
    * Read the current override table from VS Code settings.
-   * @returns A read-only record of character -> HTML entity overrides.
+   *
+   * Only plain `string -> string` entries are kept; any non-string value is
+   * ignored defensively. Settings are treated as inert data: nothing is ever
+   * evaluated and no network access is performed.
+   * @returns A read-only record of character -> HTML entity overrides, empty
+   *   when the setting is absent or not an object.
    */
+  // This method implements an instance contract but reads only global VS Code
+  // settings, so it legitimately does not reference `this`.
+  // eslint-disable-next-line class-methods-use-this
   public getOverrides(): Readonly<Record<string, string>> {
-    // TODO: read workspace.getConfiguration(CONFIGURATION_SECTION).get(OVERRIDES_KEY).
-    throw new Error('Not implemented');
+    const raw: unknown = vscode.workspace
+      .getConfiguration(CONFIGURATION_SECTION)
+      .get<unknown>(OVERRIDES_KEY);
+
+    if (raw === null || typeof raw !== 'object') {
+      return {};
+    }
+
+    const overrides: Record<string, string> = {};
+    Object.entries(raw as Record<string, unknown>).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        overrides[key] = value;
+      }
+    });
+    return overrides;
   }
 }
