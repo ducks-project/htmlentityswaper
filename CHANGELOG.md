@@ -34,5 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Align the ESLint `yoda` rule with the project's documented Yoda-style convention
   (`["error", "always", { "onlyEquality": true }]`), overriding the Airbnb base default so the
   linter enforces the constant on the left in equality comparisons.
+- Clear the redundant `onCommand:` entries from `activationEvents`: VS Code 1.74+ derives
+  them automatically from the declared `contributes.commands`, and the extension targets
+  `^1.85.0`.
 
 [unreleased]: https://github.com/ducks-project/htmlentityswaper/compare/HEAD

@@ -16,6 +16,11 @@ fixed; the order of the milestones is. The details evolve with the project.
 - Full web extension (browser target of the bundle), validated in a web host.
 - Published mitata benchmarks, tracked in the documentation.
 - Hardened test coverage across the core and the adapters.
+- ESM migration and modern module resolution: move ts-node, the
+  `@vscode/test-electron` harness, and the esbuild output to a coherent ESM
+  setup so `moduleResolution` can leave the deprecated `node` (node10) mode
+  before TypeScript 7.0 removes it. This is a dedicated effort because the
+  project is currently CommonJS end-to-end.
 
 ## v0.3.0 — Feature enrichment
 
