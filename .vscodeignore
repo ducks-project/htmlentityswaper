@@ -1,0 +1,35 @@
+# Files excluded from the packaged .vsix. Only the bundled output in dist/ and
+# the manifest-related files are shipped.
+
+.vscode/**
+.vscode-test/**
+.github/**
+.agents/**
+.history/**
+
+src/**
+test/**
+benchmark/**
+docs/**
+
+node_modules/**
+
+**/tsconfig.json
+esbuild.mjs
+.eslintrc.json
+.eslintignore
+.prettierrc.json
+.prettierignore
+.mocharc.json
+lefthook.yml
+
+**/*.ts
+**/*.map
+**/*.tsbuildinfo
+
+.gitignore
+.editorconfig
+*.code-workspace
+CONTRIBUTING.md
+ROADMAP.md
+docs/**

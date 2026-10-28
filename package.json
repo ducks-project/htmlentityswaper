@@ -1,0 +1,108 @@
+{
+  "name": "htmlentityswaper",
+  "displayName": "HTML Entity Swapper",
+  "description": "Remplace les caracteres speciaux et accentues par leurs entites HTML, dans le document ou la selection.",
+  "version": "0.1.0",
+  "publisher": "ducks-project",
+  "license": "MIT",
+  "author": "ducks-project",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Formatters"
+  ],
+  "keywords": [
+    "html",
+    "entity",
+    "entities",
+    "encode",
+    "accents"
+  ],
+  "main": "./dist/node/extension.js",
+  "browser": "./dist/browser/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ducks-project/htmlentityswaper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ducks-project/htmlentityswaper/issues"
+  },
+  "homepage": "https://github.com/ducks-project/htmlentityswaper#readme",
+  "activationEvents": [
+    "onCommand:htmlentityswaper.replaceInDocument",
+    "onCommand:htmlentityswaper.replaceInSelection"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "htmlentityswaper.replaceInDocument",
+        "title": "Remplacer les caracteres par des entites HTML (document)",
+        "category": "HTML Entity Swapper"
+      },
+      {
+        "command": "htmlentityswaper.replaceInSelection",
+        "title": "Remplacer les caracteres par des entites HTML (selection)",
+        "category": "HTML Entity Swapper"
+      }
+    ],
+    "configuration": {
+      "title": "HTML Entity Swapper",
+      "properties": {
+        "htmlentityswaper.overrides": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "type": "string"
+          },
+          "markdownDescription": "Surcharges de la table de correspondance caractere -> entite HTML. Chaque entree utilise le format `cle === valeur` : la cle est le caractere a remplacer, la valeur l'entite HTML a utiliser. Trois usages : ajouter un caractere absent de la table par defaut, ecraser une entree existante, ou desactiver un remplacement en donnant une valeur vide. Les modifications sont prises en compte immediatement, sans rechargement de la fenetre."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "build": "node esbuild.mjs",
+    "build:dev": "node esbuild.mjs --dev",
+    "build:prod": "node esbuild.mjs --prod",
+    "watch": "node esbuild.mjs --watch",
+    "build:browser": "node esbuild.mjs --browser",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"benchmark/**/*.ts\"",
+    "format": "prettier --write \"**/*.{ts,mjs,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,mjs,json,md,yml,yaml}\"",
+    "test:unit": "mocha",
+    "test:property": "mocha --spec \"test/property/**/*.spec.ts\"",
+    "test": "npm run test:unit && npm run test:property",
+    "test:integration": "ts-node ./test/runTest.ts",
+    "bench": "ts-node ./benchmark/replace.bench.ts",
+    "package": "vsce package",
+    "publish": "ovsx publish"
+  },
+  "devDependencies": {
+    "@types/chai": "5.0.1",
+    "@types/mocha": "10.0.9",
+    "@types/node": "20.17.6",
+    "@types/vscode": "1.85.0",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "@vscode/test-electron": "2.4.1",
+    "@vscode/vsce": "3.2.0",
+    "chai": "5.1.2",
+    "esbuild": "0.24.0",
+    "eslint": "8.57.1",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "18.0.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.31.0",
+    "fast-check": "3.23.1",
+    "glob": "11.0.0",
+    "lefthook": "1.8.2",
+    "mitata": "1.0.20",
+    "mocha": "10.8.2",
+    "ovsx": "0.10.1",
+    "prettier": "3.3.3",
+    "ts-node": "10.9.2",
+    "typescript": "5.6.3"
+  }
+}
