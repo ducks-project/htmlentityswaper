@@ -28,10 +28,11 @@ jobs:
       - name: Package extension
         run: npm run package
 
-      # Publishes to the Open VSX Registry under the ducks-project namespace.
-      # OVSX_TOKEN must be configured as a repository secret; it is referenced
-      # here, never hard-coded.
+      # Publishes the already-packaged .vsix to the Open VSX Registry under the
+      # ducks-project namespace, so the published artifact is exactly the one
+      # built above. OVSX_TOKEN must be configured as a repository secret; it is
+      # referenced here, never hard-coded.
       - name: Publish to Open VSX
-        run: npm run publish
+        run: npx ovsx publish *.vsix
         env:
           OVSX_PAT: ${{ secrets.OVSX_TOKEN }}
