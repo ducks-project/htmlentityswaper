@@ -24,5 +24,8 @@ coverage/
 # Whether to version them (and which ones) is a decision left to the maintainer later.
 .kiro
 
+# Agent task artifacts (scaffolding plan, FEAT descriptors, verdicts): never versioned.
+.agents
+
 # VS Code multi-root workspace file
 *.code-workspace

@@ -14,8 +14,11 @@ async function main(): Promise<void> {
   try {
     // The folder containing the extension manifest (package.json).
     const extensionDevelopmentPath = path.resolve(__dirname, '..');
-    // The compiled test runner that programmatically drives Mocha.
-    const extensionTestsPath = path.resolve(__dirname, './integration/index');
+    // The compiled test runner that programmatically drives Mocha. The VS Code
+    // extension host loads this entry point as a plain CommonJS module (no
+    // ts-node), so it must point at the JavaScript emitted by `tsconfig.test.json`
+    // into `out/`, not at the TypeScript source.
+    const extensionTestsPath = path.resolve(extensionDevelopmentPath, 'out/test/integration/index');
 
     await runTests({ extensionDevelopmentPath, extensionTestsPath });
   } catch (error) {

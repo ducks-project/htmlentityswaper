@@ -74,6 +74,8 @@
     "test:unit": "mocha",
     "test:property": "mocha --spec \"test/property/**/*.spec.ts\"",
     "test": "npm run test:unit && npm run test:property",
+    "compile:test": "tsc -p tsconfig.test.json",
+    "pretest:integration": "npm run compile:test",
     "test:integration": "ts-node ./test/runTest.ts",
     "bench": "ts-node ./benchmark/replace.bench.ts",
     "package": "vsce package",

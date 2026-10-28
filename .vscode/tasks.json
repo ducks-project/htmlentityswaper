@@ -28,6 +28,14 @@
       "group": "build",
       "label": "npm: compile",
       "detail": "Type-check the project with tsc --noEmit."
+    },
+    {
+      "type": "npm",
+      "script": "compile:test",
+      "problemMatcher": "$tsc",
+      "group": "build",
+      "label": "npm: compile:test",
+      "detail": "Compile the integration tests to out/ for the extension host."
     }
   ]
 }
