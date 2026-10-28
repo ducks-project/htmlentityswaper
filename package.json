@@ -1,7 +1,7 @@
 {
   "name": "htmlentityswaper",
   "displayName": "HTML Entity Swapper",
-  "description": "Remplace les caracteres speciaux et accentues par leurs entites HTML, dans le document ou la selection.",
+  "description": "Replace special and accented characters with their HTML entities, across the whole document or the current selection.",
   "version": "0.1.0",
   "publisher": "ducks-project",
   "license": "MIT",
@@ -38,12 +38,12 @@
     "commands": [
       {
         "command": "htmlentityswaper.replaceInDocument",
-        "title": "Remplacer les caracteres par des entites HTML (document)",
+        "title": "Replace characters with HTML entities (document)",
         "category": "HTML Entity Swapper"
       },
       {
         "command": "htmlentityswaper.replaceInSelection",
-        "title": "Remplacer les caracteres par des entites HTML (selection)",
+        "title": "Replace characters with HTML entities (selection)",
         "category": "HTML Entity Swapper"
       }
     ],
@@ -56,7 +56,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "markdownDescription": "Surcharges de la table de correspondance caractere -> entite HTML. Chaque entree utilise le format `cle === valeur` : la cle est le caractere a remplacer, la valeur l'entite HTML a utiliser. Trois usages : ajouter un caractere absent de la table par defaut, ecraser une entree existante, ou desactiver un remplacement en donnant une valeur vide ou egale a la cle. Les modifications sont prises en compte immediatement, sans rechargement de la fenetre."
+          "markdownDescription": "Overrides for the character -> HTML entity mapping table. Each entry is a `key: value` pair where the key is the character to replace and the value is the HTML entity to use. Three use cases: add a character that is missing from the default table, overwrite an existing entry, or disable a replacement by setting an empty value or a value equal to the key. Changes take effect immediately, with no window reload required."
         }
       }
     }
