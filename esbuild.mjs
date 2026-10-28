@@ -1,13 +1,15 @@
 // Build script for the extension. esbuild handles the bundling; tsc is used only
-// for type-checking (`npm run compile`). Two targets are prepared: a node target
-// (primary, main entry point) and a browser target (web extension, ROADMAP v0.2).
+// for type-checking (`npm run compile`). Two targets are produced: a node target
+// (primary `main` entry point) and a browser target (web extension `browser`
+// entry point). Both are declared in package.json, so both must exist for vsce
+// to package the extension.
 //
 // Usage:
-//   node esbuild.mjs            production node build
-//   node esbuild.mjs --dev      development node build (sourcemaps, no minify)
-//   node esbuild.mjs --prod     explicit production node build (minified)
-//   node esbuild.mjs --watch    rebuild on change (node target)
-//   node esbuild.mjs --browser  browser target (see TODO below)
+//   node esbuild.mjs            production build of BOTH targets (node + browser)
+//   node esbuild.mjs --dev      development build of both targets (sourcemaps, no minify)
+//   node esbuild.mjs --prod     explicit production build of both targets (minified)
+//   node esbuild.mjs --watch    rebuild the node target on change
+//   node esbuild.mjs --browser  build only the browser target
 
 import * as esbuild from 'esbuild';
 
@@ -45,11 +47,9 @@ const nodeOptions = {
   minify: isProd,
 };
 
-// TODO(FEAT-002+): the browser (web extension) target is wired but unverified.
-// It may require Node builtin polyfills/shims once the business logic lands.
-// The node target stays the priority and the only one verified by the scaffold.
 /**
- * Browser target options (web extension, prepared).
+ * Browser target options (web extension). The core is pure and imports no Node
+ * builtin, so the browser bundle needs no polyfill/shim; `vscode` stays external.
  * @type {import('esbuild').BuildOptions}
  */
 const browserOptions = {
@@ -61,11 +61,14 @@ const browserOptions = {
   minify: isProd,
 };
 
-const options = isBrowser ? browserOptions : nodeOptions;
-
 if (isWatch) {
-  const context = await esbuild.context(options);
+  // Watch mode rebuilds only the node target for a fast dev loop.
+  const context = await esbuild.context(nodeOptions);
   await context.watch();
+} else if (isBrowser) {
+  // Explicit single browser build.
+  await esbuild.build(browserOptions);
 } else {
-  await esbuild.build(options);
+  // Default/dev/prod: build BOTH declared entry points so the package is complete.
+  await Promise.all([esbuild.build(nodeOptions), esbuild.build(browserOptions)]);
 }
