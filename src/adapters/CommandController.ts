@@ -9,6 +9,9 @@ import { VscodeDocumentAdapter } from './VscodeDocumentAdapter';
 /** Count below which no edit is applied (avoids an empty WorkspaceEdit). */
 const EMPTY_RESULT_COUNT = 0;
 
+/** Information message shown when a command has nothing to replace. */
+const MESSAGE_NOTHING_TO_REPLACE = 'No characters to replace.';
+
 /**
  * Apply a replacement result to a document as a single grouped
  * `vscode.WorkspaceEdit` (one undo step). Edits are applied from last to first
@@ -22,6 +25,7 @@ async function applyGroupedEdit(
   result: ReplacementResult,
 ): Promise<void> {
   if (EMPTY_RESULT_COUNT === result.count) {
+    await vscode.window.showInformationMessage(MESSAGE_NOTHING_TO_REPLACE);
     return;
   }
   const edit = new vscode.WorkspaceEdit();
@@ -85,6 +89,10 @@ export class CommandController {
   public async replaceInSelection(editor: vscode.TextEditor): Promise<void> {
     const { selection } = editor;
     if (selection.isEmpty) {
+      // An empty selection yields zero replacements, so it is treated as the
+      // same "nothing to replace" no-op as a selection with no mappable
+      // character and surfaces the same information message.
+      await vscode.window.showInformationMessage(MESSAGE_NOTHING_TO_REPLACE);
       return;
     }
     const range: IReplacementRange = {

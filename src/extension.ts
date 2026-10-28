@@ -8,6 +8,9 @@ const COMMAND_REPLACE_IN_DOCUMENT = 'htmlentityswaper.replaceInDocument';
 /** Command id replacing characters within the current selection. */
 const COMMAND_REPLACE_IN_SELECTION = 'htmlentityswaper.replaceInSelection';
 
+/** Information message shown when a command runs without an active editor. */
+const MESSAGE_NO_ACTIVE_EDITOR = 'No active editor.';
+
 /**
  * Run a command body guarded by an active editor, surfacing any failure to the
  * user instead of letting it leak out of the command handler.
@@ -16,6 +19,7 @@ const COMMAND_REPLACE_IN_SELECTION = 'htmlentityswaper.replaceInSelection';
 async function withActiveEditor(run: (editor: vscode.TextEditor) => Promise<void>): Promise<void> {
   const editor = vscode.window.activeTextEditor;
   if (undefined === editor) {
+    await vscode.window.showInformationMessage(MESSAGE_NO_ACTIVE_EDITOR);
     return;
   }
   try {
