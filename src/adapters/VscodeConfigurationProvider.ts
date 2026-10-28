@@ -32,13 +32,13 @@ export class VscodeConfigurationProvider implements IConfigurationProvider {
       .getConfiguration(CONFIGURATION_SECTION)
       .get<unknown>(OVERRIDES_KEY);
 
-    if (raw === null || typeof raw !== 'object') {
+    if (null === raw || 'object' !== typeof raw) {
       return {};
     }
 
     const overrides: Record<string, string> = {};
     Object.entries(raw as Record<string, unknown>).forEach(([key, value]) => {
-      if (typeof value === 'string') {
+      if ('string' === typeof value) {
         overrides[key] = value;
       }
     });

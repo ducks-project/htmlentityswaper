@@ -19,6 +19,7 @@
   ],
   "rules": {
     "eqeqeq": ["error", "always"],
+    "yoda": ["error", "always", { "onlyEquality": true }],
     "no-var": "error",
     "prefer-const": "error",
     "no-console": "warn",

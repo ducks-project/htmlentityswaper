@@ -39,7 +39,7 @@ export class EntityMapBuilder {
    */
   public withOverrides(overrides: Readonly<Record<string, string>>): this {
     Object.entries(overrides).forEach(([char, entity]) => {
-      if (char === entity || entity === '') {
+      if (char === entity || '' === entity) {
         this.entries.delete(char);
         return;
       }
