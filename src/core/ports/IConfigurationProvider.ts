@@ -14,7 +14,8 @@ export interface IConfigurationProvider {
    * Semantics interpreted by `EntityMapBuilder`:
    * - a key absent from the defaults adds a new entry;
    * - a key present in the defaults overwrites it;
-   * - an empty value disables (removes) the matching default entry.
+   * - an entry disables (removes) the matching default entry when its value is
+   *   empty, or when its value equals its key.
    * @returns A read-only record of character -> HTML entity overrides.
    */
   getOverrides(): Readonly<Record<string, string>>;

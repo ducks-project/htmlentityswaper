@@ -1,8 +1,3 @@
-/* eslint-disable class-methods-use-this, @typescript-eslint/no-unused-vars */
-// Scaffold stub (FEAT-002): method bodies are not implemented yet, so parameters
-// are unused and methods do not reference `this`. These lint rules are disabled
-// at file scope until the logic lands; remove this directive once implemented.
-
 /**
  * Immutable lookup table mapping a source character to its HTML entity.
  *
@@ -25,8 +20,7 @@ export class EntityMap {
    * Number of entries in the map.
    */
   public get size(): number {
-    // TODO: implemented in a later feature.
-    throw new Error('Not implemented');
+    return this.entries.size;
   }
 
   /**
@@ -35,8 +29,7 @@ export class EntityMap {
    * @returns `true` when a replacement exists for `char`.
    */
   public has(char: string): boolean {
-    // TODO: implemented in a later feature.
-    throw new Error('Not implemented');
+    return this.entries.has(char);
   }
 
   /**
@@ -45,7 +38,6 @@ export class EntityMap {
    * @returns The HTML entity, or `undefined` when the character is not mapped.
    */
   public get(char: string): string | undefined {
-    // TODO: implemented in a later feature.
-    throw new Error('Not implemented');
+    return this.entries.get(char);
   }
 }
