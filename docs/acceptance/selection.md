@@ -14,4 +14,5 @@ selection.
 
 - Given an active editor with no selected text,
 - when the user runs the selection replacement command,
-- then no character is replaced outside an effective selection.
+- then no character is replaced outside an effective selection, and the user sees the
+  information message `No characters to replace.`.

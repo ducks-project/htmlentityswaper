@@ -14,7 +14,21 @@ describe the expected behavior from the user's side.
 
 - Given that no text editor is active,
 - when the user runs a replacement command,
-- then no change is applied and the user does not get a blocking error.
+- then no change is applied, no blocking error is raised, and the user sees the information
+  message `No active editor.`.
+
+## Replacement with nothing to replace
+
+- Given a document (or selection) with no character mapped in the entity map,
+- when the user runs a replacement command,
+- then the document is left unchanged and the user sees the information message
+  `No characters to replace.`.
+
+## Silent success
+
+- Given a document containing at least one mapped character,
+- when the user runs a replacement command,
+- then the mapped characters are replaced and no information message is shown.
 
 ## Double quote character
 
