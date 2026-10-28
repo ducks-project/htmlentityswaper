@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Extension icon (`media/icon.png`, 128x128 PNG) declared via the `icon` field in
+  `package.json`, shown on the Open VSX and VS Code Marketplace listings. The image is
+  losslessly optimised (oxipng), reducing its size from 29,807 to 24,649 bytes.
+
 ## [0.1.0] - 2026-10-28
 
 ### Added

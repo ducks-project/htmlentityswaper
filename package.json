@@ -6,6 +6,7 @@
   "publisher": "ducks-project",
   "license": "MIT",
   "author": "ducks-project",
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
