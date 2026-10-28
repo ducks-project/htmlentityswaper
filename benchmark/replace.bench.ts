@@ -2,14 +2,19 @@ import { bench, group, run } from 'mitata';
 
 import { EntityMapBuilder } from '../src/core/EntityMapBuilder';
 import { EntityReplacer } from '../src/core/EntityReplacer';
+import type { ITextDocument } from '../src/core/ports/ITextDocument';
+
+/** Line separator used to split the synthetic document into lines. */
+const LINE_FEED = '\n';
 
 /**
- * Document sizes, in number of lines, used to characterise how the grouped
- * `WorkspaceEdit` replacement strategy scales from a tiny to a large document.
+ * Approximate character counts the benchmark targets, matching the brief's
+ * small / medium / large sizes. A line is ~37 characters, so the line counts
+ * below land close to 100, 10000 and 100000 characters respectively.
  */
-const SMALL_LINE_COUNT = 10;
-const MEDIUM_LINE_COUNT = 1_000;
-const LARGE_LINE_COUNT = 50_000;
+const SMALL_LINE_COUNT = 3;
+const MEDIUM_LINE_COUNT = 270;
+const LARGE_LINE_COUNT = 2_700;
 
 /**
  * Build a synthetic document of `lineCount` lines, each mixing mapped and
@@ -19,35 +24,53 @@ const LARGE_LINE_COUNT = 50_000;
  */
 function makeDocument(lineCount: number): string {
   const line = 'Caf\u00e9 \u00e0 la cr\u00e8me \u2014 plain ascii tail.';
-  return Array.from({ length: lineCount }, () => line).join('\n');
+  return Array.from({ length: lineCount }, () => line).join(LINE_FEED);
+}
+
+/**
+ * Minimal in-memory {@link ITextDocument} over a plain string, mirroring the
+ * test helper so the benchmark exercises the real `computeReplacements` path.
+ */
+class BenchDocument implements ITextDocument {
+  private readonly text: string;
+
+  private readonly lines: readonly string[];
+
+  public constructor(text: string) {
+    this.text = text;
+    this.lines = text.split(LINE_FEED);
+  }
+
+  public get lineCount(): number {
+    return this.lines.length;
+  }
+
+  public lineAt(index: number): string {
+    return this.lines[index];
+  }
+
+  public getText(): string {
+    return this.text;
+  }
 }
 
 /**
  * Benchmark entry point measuring the cost of computing the replacements for a
- * whole document using the grouped-edit approach, across representative sizes.
- *
- * TODO: wire this up once {@link EntityReplacer} is implemented. For now the
- * structure (groups, cases, `run()`) is in place but the measured body is a
- * placeholder so the file compiles and `npm run bench` starts mitata.
+ * whole document, across representative sizes.
  */
 async function main(): Promise<void> {
-  // References kept so the imports are exercised; the real setup lands with the
-  // replacer implementation.
-  EntityMapBuilder;
-  EntityReplacer;
+  const replacer = new EntityReplacer(new EntityMapBuilder().withDefaults().build());
 
   const documents: ReadonlyArray<readonly [string, string]> = [
-    ['small', makeDocument(SMALL_LINE_COUNT)],
-    ['medium', makeDocument(MEDIUM_LINE_COUNT)],
-    ['large', makeDocument(LARGE_LINE_COUNT)],
+    ['small (~100 chars)', makeDocument(SMALL_LINE_COUNT)],
+    ['medium (~10k chars)', makeDocument(MEDIUM_LINE_COUNT)],
+    ['large (~100k chars)', makeDocument(LARGE_LINE_COUNT)],
   ];
 
-  group('computeReplacements (grouped WorkspaceEdit)', () => {
+  group('computeReplacements (whole document)', () => {
     documents.forEach(([label, text]) => {
-      // TODO: build an EntityMap/EntityReplacer and call
-      // TODO: replacer.computeReplacements(documentAdapterOver(text)); the
-      // TODO: placeholder body below only keeps `text` live until then.
-      bench(label, () => text.length);
+      const document = new BenchDocument(text);
+      bench(label, () => replacer.computeReplacements(document));
     });
   });
 
