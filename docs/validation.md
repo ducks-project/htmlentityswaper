@@ -90,7 +90,7 @@ observed manually from the host's About/version information, and the two outcome
 each exactly `pass` or `fail`. When an outcome is `fail`, describe the observed deviation in
 the `Deviation` column; leave it empty when both commands pass.
 
-| Date (UTC)    | Host               | Version (observed) | Document command | Selection command | Deviation |
-| ------------- | ------------------ | ------------------ | ---------------- | ----------------- | --------- |
-| _not yet run_ | Web Extension Host | _record on run_    | _pass/fail_      | _pass/fail_       |           |
-| _not yet run_ | Kiro               | _record on run_    | _pass/fail_      | _pass/fail_       |           |
+| Date (UTC) | Host                                            | Version (observed)                                                                         | Document command | Selection command | Deviation |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------- | ----------------- | --------- |
+| 2026-10-29 | Web Extension Host (VS Code Insiders, Chromium) | 1.145.0-insider (commit ea8056df; Chrome 156, Linux x86_64)                                | pass             | pass              |           |
+| 2026-10-29 | Kiro                                            | Kiro 1.4.13 (embedded VS Code engine 1.131.0; Electron 44.4.3, Node.js 24.21.0, Linux x64) | pass             | pass              |           |
