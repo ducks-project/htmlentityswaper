@@ -15,3 +15,6 @@ of truth for what has been released. Items use GitHub task lists: `- [ ]` (not d
 - [ ] Reverse command: HTML entity to character.
 - [ ] Support for multiple selections.
 - [ ] Internationalization of the interface labels.
+- [ ] Upgrade `@typescript-eslint/*` to a release that officially supports the project's
+      TypeScript version so the linter no longer warns about an unsupported TypeScript
+      version. This may entail moving ESLint to the flat-config format.
