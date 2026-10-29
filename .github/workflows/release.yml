@@ -8,7 +8,7 @@ on:
 jobs:
   publish:
     name: Publish to Open VSX
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # contents: write lets the final step create the GitHub release and attach
     # the .vsix using the automatic GITHUB_TOKEN (no extra secret needed).
     permissions:
