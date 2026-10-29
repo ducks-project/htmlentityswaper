@@ -2,7 +2,7 @@
   "name": "htmlentityswaper",
   "displayName": "HTML Entity Swapper",
   "description": "Replace special and accented characters with their HTML entities, across the whole document or the current selection.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "ducks-project",
   "license": "MIT",
   "author": "ducks-project",

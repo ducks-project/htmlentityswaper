@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-29
+
 ### Added
 
 - Extension icon (`media/icon.png`, 128x128 PNG) declared via the `icon` field in
@@ -15,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   extension target.
 - Coverage instrumentation with `c8`, enforcing per-layer coverage gates.
 - Published structured benchmarks in `docs/benchmarks.md`.
+- Manual host validation procedure in `docs/validation.md` for a Web Extension Host and for
+  the Kiro host, with a run log recording the manually observed host version and the
+  pass/fail outcome of each replacement command.
 
 ### Changed
 
@@ -63,5 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   them automatically from the declared `contributes.commands`, and the extension targets
   `^1.85.0`.
 
-[unreleased]: https://github.com/ducks-project/htmlentityswaper/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/ducks-project/htmlentityswaper/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/ducks-project/htmlentityswaper/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ducks-project/htmlentityswaper/releases/tag/v0.1.0
