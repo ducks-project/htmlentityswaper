@@ -11,6 +11,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extension icon (`media/icon.png`, 128x128 PNG) declared via the `icon` field in
   `package.json`, shown on the Open VSX and VS Code Marketplace listings. The image is
   losslessly optimised (oxipng), reducing its size from 29,807 to 24,649 bytes.
+- Web host harness based on `@vscode/test-web`, validating the extension against the web
+  extension target.
+- Coverage instrumentation with `c8`, enforcing per-layer coverage gates.
+- Published structured benchmarks in `docs/benchmarks.md`.
+
+### Changed
+
+- Migrate the source to ESM internally (Scenario A): `tsconfig` now uses
+  `module: esnext` with `moduleResolution: bundler`, and the source is authored as ESM.
+- Emit the browser target as a Web Worker CommonJS bundle guarded against Node built-ins.
+- Refactor the composition root, extracting the active-editor guard (`CommandRunner`) and
+  the edit-application port (`CommandController`) into testable adapters.
+
+### Deprecated
+
+- The node10 `moduleResolution: "node"` retained in `tsconfig.test.json` is accepted debt,
+  to be migrated before TypeScript 7.0 removes node10 resolution.
 
 ## [0.1.0] - 2026-10-28
 

@@ -12,6 +12,7 @@ coverage/
 # VS Code extension packaging and integration test runtime
 *.vsix
 .vscode-test/
+.vscode-test-web/
 
 # Linter cache
 .eslintcache
