@@ -32,11 +32,18 @@ jobs:
       - name: Build (node + browser targets)
         run: npm run build
 
-      - name: Unit & property tests
+      - name: Unit & property tests (c8-gated coverage)
         run: npm test
 
       - name: Integration tests (headless)
         run: xvfb-run -a npm run test:integration
+
+      - name: Web host tests (headless chromium)
+        run: xvfb-run -a npm run test:web
+
+      - name: Benchmarks (informational, non-gating)
+        run: npm run bench
+        continue-on-error: true
 
   package:
     name: Package .vsix
