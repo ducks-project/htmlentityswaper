@@ -1,5 +1,5 @@
 {
-  "require": ["ts-node/register", "./test/setup.ts"],
+  "node-option": ["loader=ts-node/esm", "no-warnings", "import=./test/setup.ts"],
   "extension": ["ts"],
   "spec": ["test/unit/**/*.spec.ts", "test/property/**/*.spec.ts"],
   "timeout": 10000,
